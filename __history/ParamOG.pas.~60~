@@ -1,0 +1,326 @@
+unit ParamOG;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,Math, System.Actions,
+  Vcl.ActnList, Vcl.ComCtrls, Vcl.ExtCtrls, inifiles;
+
+type
+  Tmass2D=array of array of extended;
+  TForm1 = class(TForm)
+    Timer1: TTimer;
+    ProgressBar1: TProgressBar;
+    Image1: TImage;
+    Label1: TLabel;
+    function Grad(rad:extended): Extended;
+    function Rad(grad:extended): Extended;
+    procedure RasschetOrbit_KEO(p, e, i, OmB, OmM, h: Extended; out KOORD:Tmass2D );
+    procedure point_trassa(u, t_VU, lm_VU, i, p, e, om_per : extended;  var fi, lm : extended);
+    procedure FormCreate(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure Pereschet;
+    procedure Ishodnye;
+    procedure Sohranenie;
+    procedure izvlechenie;
+    procedure sbros;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+const
+  mu     =  398600.44e9;
+  omz     =  7.29211579e-5;
+  omz_zv = omz;
+  C20     = 0.0;
+  R_ekv   =  6378136.0;
+  shag=0.25;
+var
+  Form1: TForm1;
+  Ini: Tinifile;
+  klv,Hh,i :integer;
+  orbita1,orbita2, KOORD: Tmass2D;
+  fk,fokal1, eks1, naklon1, vosxod1, peregei1, hk1, vu1 :extended;
+  fokal2, eks2, naklon2, vosxod2, peregei2, hk2, vu2 :extended;
+implementation
+
+uses SchDU_2, Animation3D, Settings, Autors;
+
+{$R *.dfm}
+
+
+procedure TForm1.FormCreate(Sender: TObject);
+
+begin
+
+  //Прараметры ОГ:
+  klv:=1;  //Количество витков
+  vremya:= 0;
+  k1:=1;
+  k2:=1;
+  k3:=1;
+  //Параметры орбиты КА № 1 - акцептора
+
+  fokal1:=R_ekv/1000+1000;  //фокальный параметр
+  naklon1:=45;               //наклонение
+  vosxod1:=0;               //прямое восхожд восх. узла, град.
+  peregei1:=0;                                  //положение перигея  град.
+  eks1:=0;                                       //Эксцентриситет
+  Form1.RasschetOrbit_KEO(fokal1,eks1,naklon1,vosxod1,peregei1, shag,orbita1);
+
+  //Параметры орбиты КА № 2 - донора
+  fokal2:=R_ekv/1000 +4000;    //фокальный параметр
+  naklon2:=90;               //наклонение
+  vosxod2:=0;               //прямое восхожд восх. узла, град.
+  peregei2:=0;                                  //положение перигея  град.
+  eks2:=0;                                       //Эксцентриситет
+  Form1.RasschetOrbit_KEO(fokal2,eks2,naklon2,vosxod2,peregei2, shag,orbita2);
+  form1.timer1.Enabled:=true;
+
+
+end;
+
+function Tform1.Grad(rad:extended): Extended; //  радианы в градусы
+ begin
+  Result:=rad*180/PI;
+ end;
+
+function Tform1.Rad(grad:extended): Extended; //  градусы в радианы
+ begin
+  Result:=grad*PI/180;
+ end;
+
+
+
+procedure TForm1.RasschetOrbit_KEO( //Рассчёт орбиты  по КЭО
+                            p, e, i, OmB, OmM, //КЭО:p- фокальный параметр, км.
+                                               //    e- эксцентиситет,
+                                               //    i- наклонение,   град.
+                                               //    OmB - прямое восхожд восх. узла, град.
+                                               //    OmM - положение перигея  град.
+                            h: Extended;       // h- шаг изменения ист. аном., град.
+                            out KOORD:Tmass2D  // Массив выходных данных (Координат)
+                            );
+ var
+            // Счётчик
+  {Hh,}  k :integer;  // Переменная для записи колличиства вычислений
+  teta,         //Переменная для записи значения истинной аномалии.
+  X, Y, Z, Vx, Vy, Vz,fff,ggg, vu: extended ;  //Переменные для записи координат
+ begin
+  // h:=0.05;
+  Hh:= trunc(360*klv/h); //Вычисляем колличество шагав
+  teta:=0;
+
+  SetLength(KOORD,9, Hh);
+  for k := 0 to Hh - 1 do
+  begin
+   try
+    KeplerToAgeco( p*1e3, e, Form1.Rad(i), Form1.Rad(OmB), Form1.Rad(teta), Form1.Rad(OmM),
+                                          X, Y, Z, Vx, Vy, Vz);
+    vu:=0;
+    KOORD[0,k]:= TVSTR(0,Form1.Rad(teta),p*1e3,e);
+    KOORD[1,k]:= Vx;
+    KOORD[2,k]:= Vy;
+    KOORD[3,k]:= Vz;
+    KOORD[4,k]:= X/1e7;
+    KOORD[5,k]:= Y/1e7;
+    KOORD[6,k]:= Z/1e7;
+
+    form1.point_trassa(Form1.rad(teta),koord[0,k],form1.rad(OmB),form1.rad(i),p*1e3,e,form1.rad(OmM),
+                             fff,ggg);
+    KOORD[7,k]:= fff*180/pi;
+    KOORD[8,k]:= ggg*180/pi;
+
+    teta:=teta+h;
+
+   except
+    messagedlg('Совокупность элементов исходной орбиты не является кеплеровской орбитой',
+                                                          mtWarning, [mbOk],0);
+    abort;
+   end;
+  end;
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  form1.Timer1.Interval:=20;
+  if form1.ProgressBar1.Position=1000 then
+  begin
+    form1.Timer1.Enabled:=false ;
+    form2.ORB1;
+    form2.Show;
+  end else form1.ProgressBar1.Position:= form1.ProgressBar1.Position+10;
+
+end;
+
+procedure Tform1.point_trassa(u, t_VU, lm_VU, i, p, e, om_per :Extended;
+                       var fi, lm : Extended);
+var t, a, T_KA, dOm_vek1, V_precess, sl, cl, dlm, tt0 : extended;
+begin
+  tt0       := - om_per;
+  t         := t_VU + TVSTR(tt0,tt0 + u,p,e);
+  a         := p/(1 - e*e);
+  T_KA      := 2*pi*sqrt(a*a*a/mu);
+  dOm_vek1  := 3*pi*C20*sqr(R_ekv/p)*cos(i);
+  V_precess := dOm_vek1/T_KA;
+  fi        := arcsin(sin(u)*sin(i));
+  sl        := cos(i)*sin(u)/cos(fi);
+  cl        := cos(u)/cos(fi);
+  dlm       := Ptan(sl,cl);
+  lm        := lm_VU + dlm - (omz_zv + V_precess)*(t - t_VU);
+end;
+
+procedure Tform1.Pereschet;
+var
+  ekscentr1, ekscentr2 :string;
+begin
+   //Прараметры ОГ:
+ // klv:=StrToInt(form3.Edit7.Text);  //Количество витков
+  vremya:= 0;
+  k1:=1;
+  k2:=1;
+  k3:=1;
+  //Параметры орбиты КА-акцептора
+  fokal1:=(R_ekv/1000 +StrToFloat(form3.Edit4.text));  //фокальный параметр
+  naklon1:=StrToFloat(form3.Edit5.text);               //наклонение
+  vosxod1:=StrToFloat(form3.Edit6.text);               //прямое восхожд восх. узла, град.
+  peregei1:=StrToFloat(form3.Edit1.text);                                  //положение перигея  град.
+
+  ekscentr1:=form3.Edit2.text;                    //Эксцентриситет
+  if ekscentr1[2]='.' then  ekscentr1[2]:=',' ;
+  eks1:=StrToFloat(ekscentr1);
+
+  Form1.RasschetOrbit_KEO(fokal1,eks1,naklon1,vosxod1,peregei1, shag,orbita1);
+
+  //Параметры орбиты КА № 2  - донора
+  fokal2:=R_ekv/1000 +StrToFloat(form3.Edit11.text);    //фокальный параметр
+  naklon2:=StrToFloat(form3.Edit12.text);               //наклонение
+  vosxod2:=StrToFloat(form3.Edit13.text);               //прямое восхожд восх. узла, град.
+  peregei2:=StrToFloat(form3.Edit14.text);                                 //положение перигея  град.
+
+  ekscentr2:=form3.Edit15.text;                    //Эксцентриситет
+  if ekscentr2[2]='.' then  ekscentr2[2]:=',' ;
+  eks2:=StrToFloat(ekscentr2);                                     //Эксцентриситет
+
+  Form1.RasschetOrbit_KEO(fokal2,eks2,naklon2,vosxod2,peregei2, shag,orbita2);
+
+  Form2.ORB1;
+  form2.FormResize(nil);
+end;
+
+procedure Tform1.Ishodnye;
+begin
+   //Прараметры ОГ:
+  klv:=1;  //Количество витков
+
+ //Количество витков
+  vremya:= 0;
+  k1:=1;
+  k2:=1;
+  k3:=1;
+  //Параметры орбиты КА № 1 - акцептора
+
+  fokal1:=R_ekv/1000+1000;  //фокальный параметр
+  form3.Edit4.text:=FloatToStr(1000);
+  naklon1:=45;               //наклонение
+  form3.Edit5.text:=FloatToStr(45);
+  vosxod1:=0;               //прямое восхожд восх. узла, град.
+  form3.Edit6.text:=FloatToStr(0);
+  peregei1:=0;                                  //положение перигея  град.
+  form3.Edit1.text:=FloatToStr(0);
+  eks1:=0;                                       //Эксцентриситет
+  form3.Edit2.text:=FloatToStr(0);
+  Form1.RasschetOrbit_KEO(fokal1,eks1,naklon1,vosxod1,peregei1, shag,orbita1);
+
+  //Параметры орбиты КА № 2 - донора
+
+  fokal2:=R_ekv/1000 +4000;    //фокальный параметр
+  form3.Edit11.text:=FloatToStr(4000);
+  naklon2:=90;               //наклонение
+  form3.Edit12.text:=FloatToStr(90);
+  vosxod2:=0;               //прямое восхожд восх. узла, град.
+  form3.Edit13.text:=FloatToStr(0);
+  peregei2:=0;                                  //положение перигея  град.
+  form3.Edit14.text:=FloatToStr(0);
+  eks2:=0;                                       //Эксцентриситет
+  form3.Edit15.text:=FloatToStr(0);
+  Form1.RasschetOrbit_KEO(fokal2,eks2,naklon2,vosxod2,peregei2, shag,orbita2);
+  Form2.ORB1;
+end;
+
+procedure Tform1.Sohranenie;
+
+begin
+  Ini:=TiniFile.Create(extractfilepath(paramstr(0))+'Parametry.ini');
+  ini.WriteFloat('KA1', 'fokal1',     fokal1);
+  ini.WriteFloat('KA1', 'naklon1',   naklon1);
+  ini.WriteFloat('KA1', 'voshod1',   vosxod1);
+  ini.WriteFloat('KA1', 'peregei1', peregei1);
+  ini.WriteFloat('KA1', 'eks1',         eks1);
+
+  ini.WriteFloat('KA2', 'fokal2',     fokal2);
+  ini.WriteFloat('KA2', 'naklon2',   naklon2);
+  ini.WriteFloat('KA2', 'voshod2',   vosxod2);
+  ini.WriteFloat('KA2', 'peregei2', peregei2);
+  ini.WriteFloat('KA2', 'eks2',         eks2);
+
+  ini.WriteBool('chekbox1', 'checked', form2.CheckBox1.Checked );
+  ini.WriteBool('chekbox2', 'checked', form2.CheckBox2.Checked );
+  ini.WriteBool('chekbox3', 'checked', form2.CheckBox3.Checked );
+  ini.WriteBool('chekbox4', 'checked', form2.CheckBox4.Checked );
+
+  Ini.Free;
+end;
+
+procedure Tform1.Izvlechenie;
+
+begin
+ Ini:=TiniFile.Create(extractfilepath(paramstr(0))+'Parametry.ini');
+
+  fokal1:=ini.ReadFloat  ('KA1', 'fokal1',     fokal1);
+  naklon1:=ini.ReadFloat ('KA1', 'naklon1',   naklon1);
+  vosxod1:=ini.ReadFloat ('KA1', 'voshod1',   vosxod1);
+  peregei1:=ini.ReadFloat('KA1', 'peregei1', peregei1);
+  eks1:=ini.ReadFloat    ('KA1', 'eks1',         eks1);
+
+  Form1.RasschetOrbit_KEO(fokal1,eks1,naklon1,vosxod1,peregei1, shag,orbita1);
+
+  fokal2:=ini.ReadFloat  ('KA2', 'fokal2',     fokal2);
+  naklon2:=ini.ReadFloat ('KA2', 'naklon2',   naklon2);
+  vosxod2:=ini.ReadFloat ('KA2', 'voshod2',   vosxod2);
+  peregei2:=ini.ReadFloat('KA2', 'peregei2', peregei2);
+  eks2:=ini.ReadFloat    ('KA2', 'eks2',         eks2);
+
+  form2.CheckBox1.Checked:=ini.ReadBool('chekbox1', 'checked', form2.CheckBox1.Checked);
+  form2.CheckBox2.Checked:=ini.ReadBool('chekbox2', 'checked', form2.CheckBox1.Checked);
+  form2.CheckBox3.Checked:=ini.ReadBool('chekbox3', 'checked', form2.CheckBox1.Checked);
+  form2.CheckBox4.Checked:=ini.ReadBool('chekbox4', 'checked', form2.CheckBox1.Checked);
+
+
+  Form1.RasschetOrbit_KEO(fokal2,eks2,naklon2,vosxod2,peregei2, shag,orbita2);
+  Form2.ORB1;
+
+
+  form3.Edit4.text:=FloatToStr(fokal1-R_ekv/1000);
+  form3.Edit5.text:=FloatToStr(naklon1);
+  form3.Edit6.text:=FloatToStr(vosxod1);
+  form3.Edit1.text:=FloatToStr(peregei1);
+  form3.Edit2.text:=FloatToStr(eks1);
+
+  form3.Edit11.text:=FloatToStr(fokal2-R_ekv/1000);
+  form3.Edit12.text:=FloatToStr(naklon2);
+  form3.Edit13.text:=FloatToStr(vosxod2);
+  form3.Edit14.text:=FloatToStr(peregei2);
+  form3.Edit15.text:=FloatToStr(eks2);
+
+  Ini.Free;
+end;
+
+procedure Tform1.sbros;
+begin
+  if FileExists('Parametry.ini') then DeleteFile('Parametry.ini');
+end;
+
+end.

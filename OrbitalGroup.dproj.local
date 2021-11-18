@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.377,C:\Users\Пользователь\Desktop\ORBGRUP\Settings.dfm=C:\Users\Пользователь\Desktop\ORBGRUP\Unit3.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.833,C:\Users\Пользователь\Desktop\ORBGRUP\Settings.dfm=C:\Users\Пользователь\Desktop\ORBGRUP\Hyu.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.364,D:\Безняков\Программирование\ORBGROUP 1.1\Unit5.pas=D:\Безняков\Программирование\ORBGROUP 1.1\Save.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.342,=C:\Users\Пользователь\Desktop\ORBGROUP 1.1\OrbitalGroup_Icon14.ico</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.098,=D:\Безняков\Программирование\ORBGROUP 1.1\Unit5.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.769,C:\Users\Пользователь\Desktop\ORBGRUP\Unit3.pas=C:\Users\Пользователь\Desktop\ORBGRUP\Hyu.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.553,C:\Users\Пользователь\Desktop\ORBGRUP\Unit3.pas=C:\Users\Пользователь\Desktop\ORBGRUP\Settings.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.277,C:\Users\Пользователь\Desktop\ORBGRUP1\Win32\Debug\Img3.bmp=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.647,C:\Users\Пользователь\Desktop\ORBGRUP\Unit3.pas=C:\Users\Пользователь\Desktop\ORBGRUP\Settings.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.829,=C:\Users\Пользователь\Desktop\ORBGRUP\Unit3.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.044,C:\Users\Пользователь\Desktop\ORBGRUP\Unit3.pas=C:\Users\Пользователь\Desktop\ORBGRUP\settings.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.470,=C:\Users\Alex\Desktop\ORBGROUP 1.1\Unit7.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.833,C:\Users\Пользователь\Desktop\ORBGRUP\Settings.pas=C:\Users\Пользователь\Desktop\ORBGRUP\Hyu.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.273,C:\Users\Alex\Desktop\ORBGROUP 1.1\Unit7.pas=C:\Users\Alex\Desktop\ORBGROUP 1.1\Nachalo.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.919,G:\CODING\ORBGRUP\Unit2.dfm=G:\CODING\ORBGRUP\Animation3D.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.121,=C:\Users\Alex\Desktop\ORBGRUP\Unit4.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.377,C:\Users\Пользователь\Desktop\ORBGRUP\Settings.pas=C:\Users\Пользователь\Desktop\ORBGRUP\Unit3.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.674,C:\Users\Пользователь\Desktop\ORBGRUP1\Win32\Debug\Img312.bmp=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.519,=C:\Users\Пользователь\Desktop\ORBGRUP1\Win32\Debug\Img312.bmp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.769,=D:\Безняков\Программирование\ORBGRUP\SchDU_2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.719,C:\Users\Пользователь\Documents\Embarcadero\Studio\Projects\Unit1.dfm=D:\Безняков\Программирование\ORBGRUP\ParamOG.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.359,D:\Безняков\Программирование\ORBGROUP 1.1\Exit.dfm=D:\Безняков\Программирование\ORBGROUP 1.1\Unit6.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.541,=C:\Users\Пользователь\Desktop\ORBGRUP1\Win32\Debug\Img3.bmp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.362,=C:\Users\Пользователь\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.264,=C:\Users\Пользователь\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.647,C:\Users\Пользователь\Desktop\ORBGRUP\Unit3.dfm=C:\Users\Пользователь\Desktop\ORBGRUP\Settings.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.044,C:\Users\Пользователь\Desktop\ORBGRUP\Unit3.dfm=C:\Users\Пользователь\Desktop\ORBGRUP\settings.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.769,C:\Users\Пользователь\Desktop\ORBGRUP\Unit3.dfm=C:\Users\Пользователь\Desktop\ORBGRUP\Hyu.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.651,=C:\Users\Пользователь\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.788,C:\Users\Alex\Desktop\ORBGRUP\Autors.pas=C:\Users\Alex\Desktop\ORBGRUP\Unit4.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.601,=F:\CODING\ORBGROUP 1.1\OrbitalGroup_Icon.ico</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.919,G:\CODING\ORBGRUP\Unit2.pas=G:\CODING\ORBGRUP\Animation3D.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.719,C:\Users\Пользователь\Documents\Embarcadero\Studio\Projects\Unit1.pas=D:\Безняков\Программирование\ORBGRUP\ParamOG.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.808,=G:\CODING\ORBGRUP\Unit2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.359,D:\Безняков\Программирование\ORBGROUP 1.1\Exit.pas=D:\Безняков\Программирование\ORBGROUP 1.1\Unit6.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.846,D:\Безняков\Программирование\ORBGROUP 1.1\Vyhod.pas=D:\Безняков\Программирование\ORBGROUP 1.1\Exit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.846,D:\Безняков\Программирование\ORBGROUP 1.1\Vyhod.dfm=D:\Безняков\Программирование\ORBGROUP 1.1\Exit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.450,=C:\Users\Пользователь\Desktop\ORBGRUP1\Win32\Debug\img31.bmp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.788,C:\Users\Alex\Desktop\ORBGRUP\Autors.dfm=C:\Users\Alex\Desktop\ORBGRUP\Unit4.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.364,D:\Безняков\Программирование\ORBGROUP 1.1\Unit5.dfm=D:\Безняков\Программирование\ORBGROUP 1.1\Save.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.645,C:\Users\Пользователь\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\Безняков\Программирование\ORBGRUP\OrbitalGroup.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.553,C:\Users\Пользователь\Desktop\ORBGRUP\Unit3.dfm=C:\Users\Пользователь\Desktop\ORBGRUP\Settings.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.273,C:\Users\Alex\Desktop\ORBGROUP 1.1\Unit7.dfm=C:\Users\Alex\Desktop\ORBGROUP 1.1\Nachalo.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.743,=D:\Безняков\Программирование\ORBGROUP 1.1\Unit6.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.310,C:\Users\Пользователь\Desktop\ORBGROUP 1.1\OrbitalGroup_Icon.ico=</Transaction>
+  </Transactions>
+</BorlandProject>
